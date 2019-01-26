@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react' 
 import Note from './components/Note'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
+import LoginForm from './components/LoginForm'
+import NoteForm from './components/NoteForm'
 import noteService from './services/notes'
 import loginService from './services/login'
 
@@ -44,7 +47,6 @@ const App = () => {
     }
   }, [])
 
-
   const toggleImportanceOf = id => {
     const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important }
@@ -68,6 +70,7 @@ const App = () => {
 
   const addNote = (event) => {
     event.preventDefault()
+    noteFormRef.current.toggleVisibility()
     const noteObject = {
       content: newNote,
       date: new Date().toISOString(),
@@ -113,47 +116,37 @@ const App = () => {
     />
   )
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        käyttäjätunnus
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
+  const loginForm = () => {
+    return (
+      <Togglable buttonLabel='login'>
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
         />
-      </div>
-      <div>
-        salasana
-          <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">kirjaudu</button>
-    </form>      
-  )
+      </Togglable>
+    )
+  }
+
+  const noteFormRef = React.createRef()
 
   const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input
+    <Togglable buttonLabel="new note" ref={noteFormRef}>
+      <NoteForm
+        onSubmit={addNote}
         value={newNote}
-        onChange={handleNoteChange}
+        handleChange={handleNoteChange}
       />
-      <button type="submit">tallenna</button>
-    </form>  
+    </Togglable>    
   )
 
   return (
     <div>
-      <h1>Muistiinpanot</h1>
+      <h1>Muistiinpanosovellus</h1>
 
       <Notification message={errorMessage} />
-
-      <h2>Kirjaudu</h2>
 
       {user === null ?
         loginForm() :
@@ -162,6 +155,8 @@ const App = () => {
           {noteForm()}
         </div>
       }
+
+      <h2>Muistiinpanot</h2>
 
       <div>
         <button onClick={() => setShowAll(!showAll)}>
