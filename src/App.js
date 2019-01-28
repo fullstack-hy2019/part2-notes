@@ -18,18 +18,18 @@ const Footer = () => {
     <div style={footerStyle}>
       <br />
       <em>Note app, Department of Computer Science 2019</em>
-    </div> 
+    </div>
   )
 }
 
 const App = () => {
-  const [notes, setNotes] = useState([]) 
+  const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
-  const [user, setUser] = useState(null) 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     noteService
@@ -55,7 +55,7 @@ const App = () => {
       .update(changedNote).then(returnedNote => {
         setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       })
-      .catch(error => {
+      .catch(() => {
         setErrorMessage(`muistiinpano '${note.content}' on jo valitettavasti poistettu palvelimelta`)
         setTimeout(() => {
           setErrorMessage(null)
@@ -139,7 +139,7 @@ const App = () => {
         value={newNote}
         handleChange={handleNoteChange}
       />
-    </Togglable>    
+    </Togglable>
   )
 
   return (
