@@ -13,7 +13,6 @@ test('renders content', () => {
     <Note note={note} />
   )
 
-  //component.debug()
 
   // tapa 1
   expect(component.container).toHaveTextContent(
@@ -30,9 +29,6 @@ test('renders content', () => {
     'Komponenttitestaus tapahtuu react-testing-library:llä'
   )
 
-  const li = component.container.querySelector('li')
-  
-  console.log(prettyDOM(li))
 })
 
 it('clicking the button calls event handler once', async () => {
