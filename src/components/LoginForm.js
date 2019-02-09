@@ -14,6 +14,7 @@ const LoginForm = ({
         <div>
           käyttäjätunnus
           <input
+            id='username'
             value={username}
             onChange={handleUsernameChange}
           />
@@ -21,6 +22,7 @@ const LoginForm = ({
         <div>
           salasana
           <input
+            id='password'
             type="password"
             value={password}
             onChange={handlePasswordChange}

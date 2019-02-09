@@ -73,8 +73,7 @@ const App = () => {
     noteFormRef.current.toggleVisibility()
     const noteObject = {
       content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() > 0.5
+      important: false
     }
 
     noteService
